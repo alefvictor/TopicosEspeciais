@@ -1,12 +1,23 @@
-from flask import Flask, request
-import sqlite3
+from flask import Flask
+from flask import request
 from flask import jsonify
+import sqlite3
+import logging
+
 
 app = Flask(__name__)
+
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+handler = logging.FileHandler("escolaapp.log")
+handler.setFormatter(formatter)
+logger = app.logger
+logger.addHandler(handler)
+logger.setLevel(logging.INFO)
 database = 'EscolaServicoApp.db'
 
 @app.route("/escolas", methods=['GET'])
 def getEscola():
+    logger.info("Listando escolas.")
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
     cursor.execute(""" SELECT * FROM tb_escola; """)
@@ -24,6 +35,7 @@ def getEscola():
     return ("Listado com sucesso", 200)
 @app.route("/escolas/<int:id>", methods=['GET'])
 def getEscolaByID(id):
+    logger.info("Listando escolas por id.")
     conn = sqlite3.connect(database)
 
     cursor = conn.cursor()
@@ -46,6 +58,7 @@ def getEscolaByID(id):
 
 @app.route("/escola", methods=['POST'])
 def setEscola():
+    logger.info("Listando alunos.")
     escola = request.get_json()
     nome = escola['nome']
     logradouro = escola['logradouro']
@@ -69,7 +82,7 @@ def setEscola():
 
 @app.route("/alunos", methods=['GET'])
 def getAluno():
-
+    logger.info("Listando alunos.")
     conn = sqlite3.connect(database)
 
     cursor = conn.cursor()
