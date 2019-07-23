@@ -3,5 +3,5 @@ class Aluno():
         self.nome = nome
         self.endereco = endereco
         self.matricula = matricula
-        self.cpf = cpf 
-        sel.nascimento = nascimento
+        self.cpf = cpf
+        self.nascimento = nascimento
